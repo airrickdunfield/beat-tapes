@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'perfect-dos';
+  src: url('./assets/fonts/perfect-dos.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: '4b pencil';
+  src: url('./assets/fonts/4b-pencil.otf') format('opentype');
+}
+
+body {
+  font-family: '4b pencil', monospace;
+  font-size: 1em;
+  line-height: 1.5;
+  color: #333;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'perfect-dos', monospace;
+}

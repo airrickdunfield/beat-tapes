@@ -1,20 +1,10 @@
-@font-face {
-  font-family: 'perfect-dos';
-  src: url('./assets/fonts/perfect-dos.ttf') format('truetype');
+h1,h2,h3,h4,h5,h6,p,ul,li { 
+    margin: 1rem 0; 
 }
 
-@font-face {
-  font-family: '4b pencil';
-  src: url('./assets/fonts/4b-pencil.otf') format('opentype');
-}
-
-body {
-  font-family: '4b pencil', monospace;
-  font-size: 1em;
-  line-height: 1.5;
-  color: #333;
-}
-
-h1,h2,h3,h4,h5,h6 {
-  font-family: 'perfect-dos', monospace;
-}
+h1 { font-size: 84px;}
+h2 { font-size: 52px; }
+h3 { font-size: 32px; }
+h4 { font-size: 20px; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.618rem}; 

@@ -1,13 +1,18 @@
-import styles from './Header.module.css';
+import h from './Header.module.css';
+import g from '../global.module.css';
+import logo from '../assets/images/logo.svg';
 
 function Header() {
     return (
-        <header className={styles.header}>
-            <h2>Study Tapes</h2>
-            <ul className={styles.menu}>
-                <li>Artists</li>
-                <li>Albums</li>
-            </ul>
+        <header className={h['header']}>
+            <div className={ `${g['container']} ${h['main-nav']}`}> 
+                <img src={logo} width={100} alt="Lofi Tapes" />
+                <ul className={ `${g['inline-menu']}` }>
+                    <li className={g['active-menu-item']}>All</li>
+                    <li>Artists</li>
+                    <li>Albums</li>
+                </ul>
+            </div>
         </header>
     )
 }

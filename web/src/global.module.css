@@ -36,6 +36,15 @@ img {
     padding: 0 1rem;
 }
 
+/* Flex */
+.flex {
+    display: flex;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
 
 /* Grid */
 .grid-container {

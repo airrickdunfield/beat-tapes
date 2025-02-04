@@ -7,11 +7,7 @@ function Header() {
         <header className={h['header']}>
             <div className={ `${g['container']} ${h['main-nav']}`}> 
                 <img src={logo} width={100} alt="Lofi Tapes" />
-                <ul className={ `${g['inline-menu']}` }>
-                    <li className={g['active-menu-item']}>All</li>
-                    <li>Artists</li>
-                    <li>Albums</li>
-                </ul>
+                <p>lofi beats to code/design/study to.</p>
             </div>
         </header>
     )

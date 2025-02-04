@@ -3,7 +3,7 @@ import g from '../global.module.css';
 
 function AllTapes() {
     return (
-        <div className={g['container']}>
+        <main className={g['container']}>
             <h2>Lofi Cassettes</h2>
             <div className={g['grid-container']}>
                 <div className={g['col-3']}>
@@ -71,7 +71,7 @@ function AllTapes() {
                 </div>
             </div>
 
-        </div>
+        </main>
     )
 }
 

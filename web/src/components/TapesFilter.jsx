@@ -6,13 +6,6 @@ const TapeFilters = () => {
         <div className={tf['filters-container']}>
             <form>
                 <div className={tf['filter-section']}>
-                    <h4>Genre</h4>
-                    <label>
-                        <input type="checkbox" name="genre" value="rock" />
-                        Genre Name
-                    </label>
-                </div>
-                <div className={tf['filter-section']}>
                     <h4>Artists</h4>
                     <label>
                         <input type="checkbox" name="artist" value="artist1" />

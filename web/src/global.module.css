@@ -45,6 +45,14 @@ img {
     flex-grow: 1;
 }
 
+.items-center {
+    align-items: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
 
 /* Grid */
 .grid-container {

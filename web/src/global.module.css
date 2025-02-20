@@ -129,3 +129,34 @@ img {
     width: 100%;
     height: auto;
 }
+
+/* Forms */
+
+.form-group label {
+    display: block;
+    margin: 1rem 0 0.5rem 0;
+    font-family: '4b pencil', monospace;
+    font-size: 12px;
+}
+
+.form-group input {
+    margin-right: 0.5rem;
+}
+
+.form-group input, .form-group select{
+    border: 1px solid #000;
+    padding: 0.5rem;
+    font-family: 'perfect-dos', monospace;
+    max-width: 100%;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+}
+
+.form-group input[type="file"] {
+    font-family:unset;
+}
+.form-group input[type="submit"] {
+    margin-top: 1rem;
+}

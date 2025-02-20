@@ -29,6 +29,24 @@ app.get('/tapes', (req, res) => {
 
 });
 
+app.get('/artists', (req, res) => {
+
+  const sql = `
+    SELECT *
+    FROM artists
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('An error occurred');
+    }
+
+    res.json(results);
+  });
+
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });

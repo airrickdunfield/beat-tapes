@@ -28,3 +28,8 @@
     border: none;
     cursor: pointer;
 }
+
+.modal__show-list {
+    margin-top: 16px;
+    font-size: 10px;
+}

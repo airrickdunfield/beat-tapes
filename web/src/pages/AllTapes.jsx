@@ -35,7 +35,7 @@ function AllTapes() {
 
                         {tapes.map( tape => {
                             return (
-                                <div key={tape.div}  className={`${g['col-4']} ${g['flex']} ${g['flex-grow']}`}>
+                                <div key={tape.id}  className={`${g['col-4']} ${g['flex']} ${g['flex-grow']}`}>
                                     <div className={`${g['card']}`}>
                                         <img src={`http://localhost:3000/images/${tape.image_name}`} alt="Placeholder" />
                                         <div className={g['card-content']}>

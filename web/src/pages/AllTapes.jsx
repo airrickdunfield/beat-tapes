@@ -8,13 +8,17 @@ function AllTapes() {
 
     const [tapes, setTapes] = useState([]);
 
+
+    const fetchTapes = async () => {
+        const response = await fetch('http://localhost:3000/tapes');
+        const data = await response.json();
+        console.log(data);
+        setTapes(data);
+    }
+
     useEffect(() => {
 
-        fetch('http://localhost:3000/tapes')
-            .then(res => res.json())
-            .then(data => {
-                setTapes(data);
-            });
+        fetchTapes();
 
     }, []);
 
@@ -29,7 +33,7 @@ function AllTapes() {
                 <div className={g['col-9']}>
                     <div className={`${g['flex']} ${g['space-between']} ${g['items-center']}`}>
                         <h3>My Collection</h3>
-                        <AddTapeModal />
+                        <AddTapeModal onTapeAdded={fetchTapes} />
                     </div>
                     <div className={g['grid-container']}>
 
@@ -39,7 +43,7 @@ function AllTapes() {
                                     <div className={`${g['card']}`}>
                                         <img src={`http://localhost:3000/images/${tape.image_name}`} alt="Placeholder" />
                                         <div className={g['card-content']}>
-                                            <h4>{tape.name}</h4>
+                                            <h4>{tape.title}</h4>
                                             <p>{tape.artist}</p>
                                         </div>
                                     </div>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import m from "./AddTapeModalContent.module.css";
 import g from "../global.module.css";
 
-export default function ModalContent({ onClose }) {
+export default function ModalContent({ onClose, onTapeAdded }) {
 
     const [dbArtists, setDbArtists] = useState("");
     const [artist, setArtist] = useState("");
@@ -36,36 +36,64 @@ export default function ModalContent({ onClose }) {
     };
     
     // Send the form data to the API
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
       event.preventDefault();
-      // Handle form submission logic here
-      const tapeData = {
-        artist_id: artist ?? null,
-        new_artist: newArtist ?? null,
-        title: title,
-        image: image
-      };
+      
+      // Get the artist ID from the state
+      let artistId = artist;
 
-      fetch("http://localhost:3000/tapes", {
+      // If the artist is new, create it before creating the tape
+      if (isNewArtist) {
+
+        // First, create the new artist by sending a POST request to the API
+        const artistResponse = await fetch("http://localhost:3000/artists", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ new_artist: newArtist }),
+        });
+
+        // Get the new artist ID from the response
+        const artistData = await artistResponse.json();
+
+        // Save the newly inserted artist ID
+        artistId = artistData.artistId;
+
+      }
+
+
+      // Create FormData object to send the tape data including the image file
+      const formData = new FormData();
+      formData.append("artist_id", artistId);
+      formData.append("title", title);
+      formData.append("image", image);
+
+      console.log("Form data", formData);
+
+      // Send the POST request to the API to create new tape
+      const tapeResponse = await fetch("http://localhost:3000/tapes", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(tapeData),
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        onClose();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+        body: formData
       });
+
+      // Get the response from the API
+      const tapeResult = await tapeResponse.json();
+
+      // Log the response to the console
+      console.log("Success:", tapeResult);
+
+      // Call the onTapeAdded function that was passed as a prop
+      onTapeAdded();
+
+      // Close the modal.
+      onClose();
+
     };
 
     return (
       <div className={m['modal-container']}>
         <div className={`${m['modal']} ${g['card']}`}>
             <h3>Add a new tape</h3>
-            <form action=""className={`${g['form-group']} ${g['grid-container']}`} onSubmit={handleFormSubmit}>
+            <form action=""className={`${g['form-group']} ${g['grid-container']}`} onSubmit={handleFormSubmit} encType="multipart/form-data">
                 <div className={g['col-6']}>
                   <label htmlFor="artist">Artist</label> 
                   {!isNewArtist ? (
@@ -94,9 +122,17 @@ export default function ModalContent({ onClose }) {
                 </div>
                 <div className={g['col-6']}>  
                 <label htmlFor="title">Title</label>
-                  <input type="text" name="title" id="title" />
+                  <input 
+                    type="text" 
+                    name="title" 
+                    id="title" 
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
                   <label htmlFor="image">Image</label>
-                  <input type="file" name="image" id="image" />
+                  <input type="file" 
+                  name="image" 
+                  id="image" 
+                  onChange={(e) => setImage(e.target.files[0])}/>
                 </div>
                 <div className={g['col-12']}>
                   <button className={g['button']} type="submit">Add tape</button>

@@ -4,8 +4,26 @@ const app = express();
 const bodyParser = require('body-parser');
 const db = require('./db');
 var cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 const port = 3000;
 
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  // Set the destination for uploaded files
+  destination: (req, file, cb) => {
+    // 'public/images' is the directory where files will be stored
+    cb(null, 'public/images');
+  },
+  // Set the filename for uploaded files
+  filename: (req, file, cb) => {
+    // Use the current timestamp and the original file extension to create a unique filename
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+// Create an instance of multer with the storage configuration
+const upload = multer({ storage: storage });
  
 app.use(cors());
 app.use(bodyParser.json());
@@ -18,6 +36,7 @@ app.get('/tapes', (req, res) => {
     SELECT albums.*, artists.name AS artist
     FROM albums
     JOIN artists ON albums.artist = artists.id
+    ORDER BY albums.title ASC;
   `;
 
   db.query(sql, (err, results) => {
@@ -49,49 +68,44 @@ app.get('/artists', (req, res) => {
 
 });
 
-// Handle POST requests to add a new tape send via the web form
-app.post('/tapes', (req, res) => {
-  const { artist_id, new_artist, title, image } = req.body;
+// Handle POST requests to add a new artist
+app.post('/artists', (req, res) => {
+  const { new_artist } = req.body;
 
-  if (new_artist) {
+  const addArtistSQL = `INSERT INTO artists (name) VALUES (?)`;
 
-    const addArtistSQL = `INSERT INTO artists (name) VALUES (?)`;
+  db.query(addArtistSQL, [new_artist], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('An error occurred');
+    }
 
-    db.query(addArtistSQL, [new_artist], (err, results) => {
+    res.json({ message: 'Artist added successfully', artistId: results.insertId });
+  });
+});
 
-      console.log(err);
+// Handle POST requests to add a new tape
+app.post('/tapes', upload.single('image'), (req, res) => {
+  const { artist_id, title } = req.body;
 
-      if (err) {
-        console.error(err);
-        return res.status(500).send('An error occurred');
-      }
+  // Log the file and body to debug
+  console.log('File:', req.file);
+  console.log('Body:', req.body);
 
-      const newArtistId = results.insertId;
-      const addAlbumSQL = `INSERT INTO albums (artist, title, image_name) VALUES (?, ?, ?)`;
 
-      db.query(addAlbumSQL, [newArtistId, title, image], (err, results) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send('An error occurred');
-        }
+  // The uploaded file's filename is stored in 'req.file.filename'
+  const image = req.file.filename;
 
-        res.json({ message: 'success' });
-      });
-    });
+  const addAlbumSQL = `INSERT INTO albums (artist, title, image_name) VALUES (?, ?, ?)`;
 
-  } else {
+  db.query(addAlbumSQL, [artist_id, title, image], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('An error occurred');
+    }
 
-    const addAlbumSQL = `INSERT INTO albums (artist, title, image_name) VALUES (?, ?, ?)`;
-
-    db.query(addAlbumSQL, [artist_id, title, image], (err, results) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('An error occurred');
-      }
-
-      res.json({ message: 'success' });
-    });
-  }
+    res.json({ message: 'Tape added successfully' });
+  });
 });
 
 

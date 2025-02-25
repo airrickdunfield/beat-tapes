@@ -8,16 +8,17 @@ const multer = require('multer');
 const path = require('path');
 const port = 3000;
 
-// Configure multer for file uploads
+// Configure multer for file uploads so we can store items later on 
 const storage = multer.diskStorage({
   // Set the destination for uploaded files
   destination: (req, file, cb) => {
-    // 'public/images' is the directory where files will be stored
+    // 'public/images' is the directory where files will be stored, because we are using the 'public' folder as a static folder
     cb(null, 'public/images');
   },
   // Set the filename for uploaded files
   filename: (req, file, cb) => {
     // Use the current timestamp and the original file extension to create a unique filename
+    //    @NOTE: This is a simple way to avoid filename conflicts
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
@@ -25,9 +26,13 @@ const storage = multer.diskStorage({
 // Create an instance of multer with the storage configuration
 const upload = multer({ storage: storage });
  
+// Enable CORS
 app.use(cors());
+
+// Enable JSON body parsing
 app.use(bodyParser.json());
 
+// Serve the 'public' folder as a static folder
 app.use(express.static('public'));
 
 app.get('/tapes', (req, res) => {
@@ -70,35 +75,40 @@ app.get('/artists', (req, res) => {
 
 // Handle POST requests to add a new artist
 app.post('/artists', (req, res) => {
+  // Get the new artist name from the request body
   const { new_artist } = req.body;
 
+  // Create the SQL query to insert the new artist
   const addArtistSQL = `INSERT INTO artists (name) VALUES (?)`;
 
+  // Execute the SQL query, but subsistute the '?' with the new artist name
   db.query(addArtistSQL, [new_artist], (err, results) => {
+
+    // If an error occurred, log it and return a 500 status code
     if (err) {
       console.error(err);
       return res.status(500).send('An error occurred');
     }
-
+    // If the query was successful, return a JSON response with the new artist ID to be used later
     res.json({ message: 'Artist added successfully', artistId: results.insertId });
   });
 });
 
 // Handle POST requests to add a new tape
+// Here we will also upload the image file to the server
 app.post('/tapes', upload.single('image'), (req, res) => {
   const { artist_id, title } = req.body;
-
-  // Log the file and body to debug
-  console.log('File:', req.file);
-  console.log('Body:', req.body);
-
 
   // The uploaded file's filename is stored in 'req.file.filename'
   const image = req.file.filename;
 
+  // Create the SQL query to insert the new tape
   const addAlbumSQL = `INSERT INTO albums (artist, title, image_name) VALUES (?, ?, ?)`;
 
+  // Run the query above, substituting the '?' with the artist ID, title and image in that order
   db.query(addAlbumSQL, [artist_id, title, image], (err, results) => {
+
+    // If an error occurred, log it and return a 500 status code
     if (err) {
       console.error(err);
       return res.status(500).send('An error occurred');

@@ -60,7 +60,6 @@ export default function ModalContent({ onClose, onTapeAdded }) {
 
       }
 
-
       // Create FormData object to send the tape data including the image file
       const formData = new FormData();
       formData.append("artist_id", artistId);
@@ -82,6 +81,7 @@ export default function ModalContent({ onClose, onTapeAdded }) {
       console.log("Success:", tapeResult);
 
       // Call the onTapeAdded function that was passed as a prop
+      //    @NOTE: This is passed down from AllTapes.jsx and just calls the fetchTapes function to repopulate the tapes
       onTapeAdded();
 
       // Close the modal.

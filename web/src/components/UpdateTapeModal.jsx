@@ -8,7 +8,10 @@ function UpdateTapeModal( {onTapeUpdated, tape} ) {
   return (
     <>
       <button className={`${g['button']} ${g['small']} ${g['warning']}`} onClick={() => setShowModal(true)}>Edit</button>      
-      {/* Pass down the funciton to get all the tapes from the API */}
+      {/* 
+        Pass down the function to get all the tapes from the API
+          @NOTE createPortal will render the ModalContent component outside of it's parent component. Here we are rendering it in the document.body 
+      */}
       {showModal && createPortal( <ModalContent onTapeUpdated={onTapeUpdated} tape={tape} onClose={() => setShowModal(false)} /> ,document.body)}
     </>
   );

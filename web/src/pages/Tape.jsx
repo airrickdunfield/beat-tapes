@@ -3,8 +3,6 @@ import { Link } from "react-router";
 import { useParams } from "react-router";
 import parse from 'html-react-parser';
 
-
-
 import g from '../global.module.css';
 
 function Tape() {

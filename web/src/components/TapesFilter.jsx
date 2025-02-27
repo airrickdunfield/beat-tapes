@@ -1,7 +1,7 @@
 import tf from './TapeFilters.module.css';
 import g from '../global.module.css';
 
-const TapeFilters = () => {
+function TapeFilters () {
     return (
         <div className={tf['filters-container']}>
             <form>

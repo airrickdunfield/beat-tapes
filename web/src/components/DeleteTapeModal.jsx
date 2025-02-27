@@ -4,7 +4,9 @@ import DeleteModalContent from './DeleteModalContent';
 import g from '../global.module.css';
 
 function DeleteTapeModal( {onTapeDeleted, id} ) {
+
   const [showModal, setShowModal] = useState(false);
+  
   return (
     <>
       <button className={`${g['button']} ${g['small']} ${g['delete']}`} onClick={() => setShowModal(true)}>Delete</button>      

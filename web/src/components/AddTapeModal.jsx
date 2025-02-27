@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import ModalContent from './AddTapeModalContent';
 import g from '../global.module.css';
 
-export default function PortalExample( {onTapeAdded} ) {
+function PortalExample( {onTapeAdded} ) {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -13,3 +13,5 @@ export default function PortalExample( {onTapeAdded} ) {
     </>
   );
 }
+
+export default PortalExample;

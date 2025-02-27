@@ -118,9 +118,8 @@ img {
     cursor: pointer;
 }
 
-.button.small {
-    font-size: 10px;
-}
+.button.small { font-size: 10px; }
+.button.delete { background-color: #f00; color: #fff; }
 /* Card */
 
 .card {

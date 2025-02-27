@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 import TapeFilters from '../components/TapesFilter';
 import AddTapeModal from '../components/AddTapeModal';
 import g from '../global.module.css';
+import at from './AllTapes.module.css';
 
 
 function AllTapes() {
@@ -46,9 +48,12 @@ function AllTapes() {
                                     <div className={`${g['card']}`}>
                                         <img src={`http://localhost:3000/images/${tape.image_name}`} alt="Placeholder" />
                                         <div className={g['card-content']}>
-                                            <h4>{tape.title}</h4>
+                                            <h4 className={`${at['tape-title']}`}>{tape.title}</h4>
                                             <p>{tape.artist}</p>
-                                            <a href={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']}`}>Details</a>
+                                            <div className={`${at['tape-actions']}`}>
+                                                <Link to={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']}`}>Details</Link>
+                                                <a href={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']} ${g['delete']}`}>Delete</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

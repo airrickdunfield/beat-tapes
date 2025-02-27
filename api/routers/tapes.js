@@ -24,6 +24,22 @@ tapesRouter.get('/', (req, res) => {
 
 });
 
+tapesRouter.get('/:id', (req, res) => {
+
+  const { id } = req.params;
+  const sql = `SELECT * FROM albums WHERE id = ?`;
+
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('An error occurred');
+    }
+
+    res.json(results);
+  });
+
+});
+
 tapesRouter.post('/', upload.single('image'), (req, res) => {
 
     const { artist_id, title } = req.body;

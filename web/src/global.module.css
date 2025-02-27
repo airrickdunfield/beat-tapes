@@ -106,6 +106,9 @@ img {
     cursor: pointer;
 }
 
+.button.small {
+    font-size: 10px;
+}
 /* Card */
 
 .card {

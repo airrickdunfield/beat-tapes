@@ -47,6 +47,7 @@ function AllTapes() {
                                         <div className={g['card-content']}>
                                             <h4>{tape.title}</h4>
                                             <p>{tape.artist}</p>
+                                            <a href={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']}`}>Details</a>
                                         </div>
                                     </div>
                                 </div>

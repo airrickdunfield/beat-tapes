@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import TapeFilters from '../components/TapesFilter';
 import AddTapeModal from '../components/AddTapeModal';
+import UpdateTapeModal from '../components/UpdateTapeModal';
 import DeleteTapeModal from '../components/DeleteTapeModal';
 import g from '../global.module.css';
 import at from './AllTapes.module.css';
@@ -13,9 +14,8 @@ function AllTapes() {
 
     // We have moved the fetchTapes to a funciton, because we want to call it both when the component mounts and when a new tape is added
     const fetchTapes = async () => {
-        const response = await fetch('http://localhost:3000/tapes');
+        const response = await fetch('http://localhost:3000/tapes/');
         const data = await response.json();
-        console.log(data);
         setTapes(data);
     }
 
@@ -52,7 +52,8 @@ function AllTapes() {
                                             <h4 className={`${at['tape-title']}`}>{tape.title}</h4>
                                             <p>{tape.artist}</p>
                                             <div className={`${at['tape-actions']}`}>
-                                                <Link to={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']}`}>Details</Link>
+                                                <Link to={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']}`}>View</Link>
+                                                <UpdateTapeModal onTapeUpdated={fetchTapes} tape={tape} />
                                                 <DeleteTapeModal onTapeDeleted={fetchTapes} id={tape.id} />
                                             </div>
                                         </div>

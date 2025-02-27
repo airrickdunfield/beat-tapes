@@ -7,7 +7,7 @@ const tapesRouter = express.Router();
 tapesRouter.get('/', (req, res) => {
 
   const sql = `
-    SELECT albums.*, artists.name AS artist
+    SELECT albums.*, artists.name AS artist, artists.id AS artist_id
     FROM albums
     JOIN artists ON albums.artist = artists.id
     ORDER BY albums.title ASC;
@@ -28,7 +28,7 @@ tapesRouter.get('/:id', (req, res) => {
 
   const { id } = req.params;
   const sql = `
-    SELECT albums.*, artists.name AS artist
+    SELECT albums.*, artists.name AS artist, artists.id AS artist_id
     FROM albums
     JOIN artists ON albums.artist = artists.id
     WHERE albums.id = ?
@@ -39,6 +39,8 @@ tapesRouter.get('/:id', (req, res) => {
       console.error(err);
       res.status(500).send('An error occurred');
     }
+
+    console.log(results[0]);
 
     res.json(results[0]);
   });
@@ -55,6 +57,7 @@ tapesRouter.delete('/:id', (req, res) => {
   `;
 
   db.query(sql, [id], (err, results) => {
+
     if (err) {
       console.error(err);
       res.status(500).send('An error occurred');
@@ -64,6 +67,34 @@ tapesRouter.delete('/:id', (req, res) => {
   });
 }
 );
+
+tapesRouter.put('/:id', upload.single('image'), (req, res) => {
+  const { id } = req.params;
+  const { title, artist_id } = req.body;
+
+  let updateAlbumSQL = `
+    UPDATE albums
+    SET title = ?, artist = ?
+  `;
+  const queryParams = [title, artist_id];
+
+  if (req.file) {
+    updateAlbumSQL += `, image_name = ?`;
+    queryParams.push(req.file.filename);
+  }
+
+  updateAlbumSQL += ` WHERE id = ? LIMIT 1`;
+  queryParams.push(id);
+
+  db.query(updateAlbumSQL, queryParams, (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('An error occurred');
+    }
+
+    res.json({ message: 'Tape updated successfully' });
+  });
+});
 
 tapesRouter.post('/', upload.single('image'), (req, res) => {
 

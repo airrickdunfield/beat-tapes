@@ -120,6 +120,8 @@ img {
 
 .button.small { font-size: 10px; }
 .button.delete { background-color: #f00; color: #fff; }
+.button.warning { background-color: #ff0; color: #000; }
+.button.success { background-color: #0f0; color: #000; }
 /* Card */
 
 .card {

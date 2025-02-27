@@ -45,6 +45,26 @@ tapesRouter.get('/:id', (req, res) => {
 
 });
 
+tapesRouter.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
+  const sql = `
+    DELETE FROM albums
+    WHERE id = ?
+    LIMIT 1
+  `;
+
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('An error occurred');
+    }
+
+    res.json({ message: 'Tape deleted successfully' });
+  });
+}
+);
+
 tapesRouter.post('/', upload.single('image'), (req, res) => {
 
     const { artist_id, title } = req.body;

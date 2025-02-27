@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import TapeFilters from '../components/TapesFilter';
 import AddTapeModal from '../components/AddTapeModal';
+import DeleteTapeModal from '../components/DeleteTapeModal';
 import g from '../global.module.css';
 import at from './AllTapes.module.css';
 
@@ -52,7 +53,7 @@ function AllTapes() {
                                             <p>{tape.artist}</p>
                                             <div className={`${at['tape-actions']}`}>
                                                 <Link to={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']}`}>Details</Link>
-                                                <a href={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']} ${g['delete']}`}>Delete</a>
+                                                <DeleteTapeModal onTapeDeleted={fetchTapes} id={tape.id} />
                                             </div>
                                         </div>
                                     </div>

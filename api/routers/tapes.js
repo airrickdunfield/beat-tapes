@@ -27,7 +27,12 @@ tapesRouter.get('/', (req, res) => {
 tapesRouter.get('/:id', (req, res) => {
 
   const { id } = req.params;
-  const sql = `SELECT * FROM albums WHERE id = ?`;
+  const sql = `
+    SELECT albums.*, artists.name AS artist
+    FROM albums
+    JOIN artists ON albums.artist = artists.id
+    WHERE albums.id = ?
+  `;
 
   db.query(sql, [id], (err, results) => {
     if (err) {
@@ -35,7 +40,7 @@ tapesRouter.get('/:id', (req, res) => {
       res.status(500).send('An error occurred');
     }
 
-    res.json(results);
+    res.json(results[0]);
   });
 
 });

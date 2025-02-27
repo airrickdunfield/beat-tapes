@@ -4,14 +4,19 @@ import g from "../global.module.css";
 
 function ModalContent({ onClose, onTapeAdded }) {
 
+  // State to hold the artists from the API
   const [dbArtists, setDbArtists] = useState("");
+
+  // State to hold the artist id, title, image
   const [artist, setArtist] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
+
+  // State to hold the new artist info if that option is selected
   const [isNewArtist, setIsNewArtist] = useState(false);
   const [newArtist, setNewArtist] = useState("");
 
-  // Load the artists from the API
+  // Load the artists from the API on intial render for the select dropdown
   useEffect(() => {
     fetch("http://localhost:3000/artists")
       .then((res) => res.json())
@@ -21,8 +26,7 @@ function ModalContent({ onClose, onTapeAdded }) {
           setArtist(data[0].id);
         }
       });
-  }
-    , []);
+  }, []);
 
   // Toggle the select and the input for artists
   const handleArtistSelectChange = (eventTrigger) => {
@@ -37,6 +41,8 @@ function ModalContent({ onClose, onTapeAdded }) {
 
   // Send the form data to the API
   const handleFormSubmit = async (event) => {
+
+    // Stop the HTML form from submitting
     event.preventDefault();
 
     // Get the artist ID from the state
@@ -65,8 +71,6 @@ function ModalContent({ onClose, onTapeAdded }) {
     formData.append("artist_id", artistId);
     formData.append("title", title);
     formData.append("image", image);
-
-    console.log("Form data", formData);
 
     // Send the POST request to the API to create new tape
     const tapeResponse = await fetch("http://localhost:3000/tapes", {

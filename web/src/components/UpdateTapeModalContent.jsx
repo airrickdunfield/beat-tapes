@@ -4,8 +4,13 @@ import g from "../global.module.css";
 
 function UpdateModalContent({ onClose, onTapeUpdated, tape }) {
 
+  // Used to store the artists from the API
   const [dbArtists, setDbArtists] = useState("");
+
+  // Used to store the artist id
   const [artist, setArtist] = useState(tape.artist_id ?? "");
+
+  // Used to store the title, image and new artist name from the form
   const [title, setTitle] = useState(tape.title);
   const [image, setImage] = useState("");
   const [isNewArtist, setIsNewArtist] = useState(false);
@@ -17,6 +22,7 @@ function UpdateModalContent({ onClose, onTapeUpdated, tape }) {
       .then((res) => res.json())
       .then((data) => {
         setDbArtists(data);
+        // If there are artists in the database and the tape has no artist, set the first artist as the default
         if (data.length > 0 && !artist) {
           setArtist(data[0].id);
         }
@@ -24,7 +30,7 @@ function UpdateModalContent({ onClose, onTapeUpdated, tape }) {
   }
     , []);
 
-  // Toggle the select and the input for artists
+  // This runs when the artist select changes, if the user selects the option to add a new artist, show the input field instead of the select
   const handleArtistSelectChange = (eventTrigger) => {
     if (eventTrigger.target.value === "-1") {
       setIsNewArtist(true);
@@ -35,7 +41,7 @@ function UpdateModalContent({ onClose, onTapeUpdated, tape }) {
     }
   };
 
-  // Send the form data to the API
+  // Send the form data to the API when the form in submitted
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -55,14 +61,15 @@ function UpdateModalContent({ onClose, onTapeUpdated, tape }) {
       // Get the new artist ID from the response
       const artistData = await artistResponse.json();
 
-      // Save the newly inserted artist ID
+      // Save the newly inserted artist ID. The API returns the ID as artistId
       artistId = artistData.artistId;
 
     }
 
-    // Create FormData object to send the tape data including the image file
+    // Create FormData object to send the tape data including the image file. This is required because we are sending a file
     const formData = new FormData();
 
+    // Append the artist ID, title and image to the form data
     formData.append("artist_id", artistId);
     formData.append("title", title);
     formData.append("image", image);

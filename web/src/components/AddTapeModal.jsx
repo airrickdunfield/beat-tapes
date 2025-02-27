@@ -8,7 +8,10 @@ function PortalExample( {onTapeAdded} ) {
   return (
     <>
       <button className={g['button']} onClick={() => setShowModal(true)}>+ Add Tape +</button>      
-      {/* Pass down the funciton to get all the tapes from the API */}
+      {/* 
+        Pass down the function to get all the tapes from the API
+          @NOTE createPortal will render the ModalContent component outside of it's parent component. Here we are rendering it in the document.body  
+      */}
       {showModal && createPortal( <ModalContent onTapeAdded={onTapeAdded} onClose={() => setShowModal(false)} /> ,document.body)}
     </>
   );

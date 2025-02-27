@@ -4,11 +4,12 @@ import g from "../global.module.css";
 
 function DeleteModalContent({ id, onClose, onTapeDeleted }) {
     
-    // Send the form data to the API
+    // Send the data to the API when the user submits the form
     const handleFormSubmit = async (event) => {
+      
+      // Stop the HTML form from submitting
       event.preventDefault();
-    
-      console.log(`Deleting tape with ID: ${id}`);
+
       // Send the POST request to the API to create new tape
       const tapeResponse = await fetch(`http://localhost:3000/tapes/${id}`, {
         method: "DELETE"

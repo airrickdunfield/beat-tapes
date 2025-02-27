@@ -4,14 +4,14 @@ const upload = require('../storage');
 
 const tapesRouter = express.Router();
 
+// Get all tapes from the database
 tapesRouter.get('/', (req, res) => {
 
   const sql = `
     SELECT albums.*, artists.name AS artist, artists.id AS artist_id
     FROM albums
     JOIN artists ON albums.artist = artists.id
-    ORDER BY albums.title ASC;
-  `;
+    ORDER BY albums.title ASC;`;
 
   db.query(sql, (err, results) => {
     if (err) {
@@ -24,17 +24,21 @@ tapesRouter.get('/', (req, res) => {
 
 });
 
+// Get a single tape from the database
 tapesRouter.get('/:id', (req, res) => {
 
+  // Get the id from the URL
   const { id } = req.params;
+
   const sql = `
     SELECT albums.*, artists.name AS artist, artists.id AS artist_id
     FROM albums
     JOIN artists ON albums.artist = artists.id
-    WHERE albums.id = ?
-  `;
+    WHERE albums.id = ?`;
 
+  // Substitute the '?' with the id from the URL to prevent SQL injection
   db.query(sql, [id], (err, results) => {
+
     if (err) {
       console.error(err);
       res.status(500).send('An error occurred');
@@ -50,12 +54,9 @@ tapesRouter.get('/:id', (req, res) => {
 tapesRouter.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  const sql = `
-    DELETE FROM albums
-    WHERE id = ?
-    LIMIT 1
-  `;
+  const sql = ` DELETE FROM albums WHERE id = ? LIMIT 1`;
 
+  // Like above, substitute the '?' with the id from the URL
   db.query(sql, [id], (err, results) => {
 
     if (err) {
@@ -68,25 +69,37 @@ tapesRouter.delete('/:id', (req, res) => {
 }
 );
 
+// Update a tape entry in the database
 tapesRouter.put('/:id', upload.single('image'), (req, res) => {
+
+  // Get the id from the URL
   const { id } = req.params;
+
+  // Get the title and artist ID from the request body
   const { title, artist_id } = req.body;
+
+  // @NOTE: We are breaking the SQL query into multiple concatenated strings for readability to only add the image_name if a file was uploaded
 
   let updateAlbumSQL = `
     UPDATE albums
     SET title = ?, artist = ?
   `;
+
   const queryParams = [title, artist_id];
 
+  // The file property will only return truthy if a file was uploaded
   if (req.file) {
     updateAlbumSQL += `, image_name = ?`;
     queryParams.push(req.file.filename);
   }
 
+  // Finish the SQL query by adding the WHERE clause to only update the tape with the matching ID
   updateAlbumSQL += ` WHERE id = ? LIMIT 1`;
   queryParams.push(id);
 
+  // Run the query above, substituting the '?' with the title, artist ID, image (if uploaded) and ID in that order
   db.query(updateAlbumSQL, queryParams, (err, results) => {
+
     if (err) {
       console.error(err);
       return res.status(500).send('An error occurred');
@@ -96,8 +109,10 @@ tapesRouter.put('/:id', upload.single('image'), (req, res) => {
   });
 });
 
+// Add a new tape to the database after uploading an image that was sent in the request
 tapesRouter.post('/', upload.single('image'), (req, res) => {
 
+    // Get the artist ID and title from the request body 
     const { artist_id, title } = req.body;
   
     // The uploaded file's filename is stored in 'req.file.filename'

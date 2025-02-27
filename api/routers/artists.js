@@ -5,18 +5,17 @@ const artistsRouter = express.Router();
 
 artistsRouter.get('/', (req, res) => {
 
-    const sql = `
-      SELECT *
-      FROM artists
-    `;
+    const sql = `SELECT * FROM artists`;
   
     db.query(sql, (err, results) => {
+
       if (err) {
         console.error(err);
         res.status(500).send('An error occurred');
       }
   
       res.json(results);
+      
     });
 });
 

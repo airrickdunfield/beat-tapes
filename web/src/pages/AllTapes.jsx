@@ -14,9 +14,13 @@ function AllTapes() {
 
     // We have moved the fetchTapes to a funciton, because we want to call it both when the component mounts and when a new tape is added
     const fetchTapes = async () => {
-        const response = await fetch('http://localhost:3000/tapes/');
-        const data = await response.json();
-        setTapes(data);
+        fetch('http://localhost:3000/tapes/')
+            .then(response => response.json())
+            .then(data => setTapes(data));
+    }
+
+    const handleUpdatedTapes = (tapesArray) => {
+        setTapes(tapesArray);
     }
 
     // When the component is displayed, fetch the tapes
@@ -33,13 +37,13 @@ function AllTapes() {
             <div className={g['grid-container']}>
                 <div className={g['col-3']}>
                         <h3>Filters</h3>
-                        <TapeFilters />
+                        <TapeFilters updateTapes={handleUpdatedTapes} />
                 </div>
                 <div className={g['col-9']}>
                     <div className={`${g['flex']} ${g['space-between']} ${g['items-center']}`}>
                         <h3>My Collection</h3>
                         {/* Pass the funciton to the AddTapeModal component down to the child */}
-                        <AddTapeModal onTapeAdded={fetchTapes} />
+                        <AddTapeModal />
                     </div>
                     <div className={g['grid-container']}>
 

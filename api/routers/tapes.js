@@ -7,13 +7,24 @@ const tapesRouter = express.Router();
 // Get all tapes from the database
 tapesRouter.get('/', (req, res) => {
 
-  const sql = `
+  const artists = req.query.artists;
+
+  let sql = `
     SELECT albums.*, artists.name AS artist, artists.id AS artist_id
     FROM albums
-    JOIN artists ON albums.artist = artists.id
-    ORDER BY albums.title ASC;`;
+    JOIN artists ON albums.artist = artists.id`;
 
-  db.query(sql, (err, results) => {
+  const queryParams = [];
+
+  console.log(artists);
+
+  if (artists) {
+    sql += ` WHERE artists.id IN (?)`;
+
+    queryParams.push(...artists);
+  }
+
+  db.query(sql, queryParams, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).send('An error occurred');
@@ -76,16 +87,16 @@ tapesRouter.put('/:id', upload.single('image'), (req, res) => {
   const { id } = req.params;
 
   // Get the title and artist ID from the request body
-  const { title, artist_id } = req.body;
+  const { title, description, artist_id } = req.body;
 
   // @NOTE: We are breaking the SQL query into multiple concatenated strings for readability to only add the image_name if a file was uploaded
 
   let updateAlbumSQL = `
     UPDATE albums
-    SET title = ?, artist = ?
+    SET title = ?, description = ?, artist = ?
   `;
 
-  const queryParams = [title, artist_id];
+  const queryParams = [title, description, artist_id];
 
   // The file property will only return truthy if a file was uploaded
   if (req.file) {

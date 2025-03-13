@@ -1,4 +1,4 @@
-## MDIA 4294 - Express/React -Lab App
+## MDIA 4294 - Express/React - Lab App
 - Week 7: Connecting Express, React, and MySQL (MAMP)
 - Week 8: CRUD - Create
 - Week 9: CRUD - Update

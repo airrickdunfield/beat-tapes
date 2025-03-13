@@ -11,15 +11,9 @@ function DeleteModalContent({ id, onClose, onTapeDeleted }) {
       event.preventDefault();
 
       // Send the POST request to the API to create new tape
-      const tapeResponse = await fetch(`http://localhost:3000/tapes/${id}`, {
-        method: "DELETE"
-      });
-
-      // Get the response from the API
-      const tapeResult = await tapeResponse.json();
-
-      // Log the response to the console
-      console.log("Success:", tapeResult);
+      fetch(`http://localhost:3000/tapes/${id}`, {method: "DELETE"})
+        .then(response => response.json())
+        .then(data => console.log(data));
 
       // Call the onTapeAdded function that was passed as a prop
       //    @NOTE: This is passed down from AllTapes.jsx and just calls the fetchTapes function to repopulate the tapes

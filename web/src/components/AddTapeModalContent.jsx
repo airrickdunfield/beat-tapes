@@ -51,18 +51,18 @@ function ModalContent({ onClose, onTapeAdded }) {
     // If the artist is new, create it before creating the tape
     if (isNewArtist) {
 
-      // First, create the new artist by sending a POST request to the API
-      const artistResponse = await fetch("http://localhost:3000/artists", {
+      const newArtistFetchMeta = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ new_artist: newArtist }),
-      });
+        body: JSON.stringify({ name: newArtist })
+      };
 
-      // Get the new artist ID from the response
-      const artistData = await artistResponse.json();
-
-      // Save the newly inserted artist ID
-      artistId = artistData.artistId;
+      // First, create the new artist by sending a POST request to the API
+     fetch("http://localhost:3000/artists", newArtistFetchMeta)
+        .then((response) => response.json())
+        .then((data) => {
+          artistId = data.artistId;
+        });
 
     }
 
@@ -73,16 +73,9 @@ function ModalContent({ onClose, onTapeAdded }) {
     formData.append("image", image);
 
     // Send the POST request to the API to create new tape
-    const tapeResponse = await fetch("http://localhost:3000/tapes", {
-      method: "POST",
-      body: formData
-    });
-
-    // Get the response from the API
-    const tapeResult = await tapeResponse.json();
-
-    // Log the response to the console
-    console.log("Success:", tapeResult);
+    fetch("http://localhost:3000/tapes", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => console.log(data));
 
     // Call the onTapeAdded function that was passed as a prop
     //    @NOTE: This is passed down from AllTapes.jsx and just calls the fetchTapes function to repopulate the tapes

@@ -14,23 +14,15 @@ tapesRouter.get('/', (req, res) => {
     FROM albums
     JOIN artists ON albums.artist = artists.id`;
 
-  const queryParams = [];
 
-  console.log(artists);
-
-  if (artists) {
-    sql += ` WHERE artists.id IN (?)`;
-
-    queryParams.push(...artists);
-  }
-
-  db.query(sql, queryParams, (err, results) => {
+  db.query(sql, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).send('An error occurred');
     }
 
     res.json(results);
+    
   });
 
 });
@@ -61,24 +53,6 @@ tapesRouter.get('/:id', (req, res) => {
   });
 
 });
-
-tapesRouter.delete('/:id', (req, res) => {
-  const { id } = req.params;
-
-  const sql = ` DELETE FROM albums WHERE id = ? LIMIT 1`;
-
-  // Like above, substitute the '?' with the id from the URL
-  db.query(sql, [id], (err, results) => {
-
-    if (err) {
-      console.error(err);
-      res.status(500).send('An error occurred');
-    }
-
-    res.json({ message: 'Tape deleted successfully' });
-  });
-}
-);
 
 // Update a tape entry in the database
 tapesRouter.put('/:id', upload.single('image'), (req, res) => {

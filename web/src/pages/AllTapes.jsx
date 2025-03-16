@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import TapeFilters from '../components/TapesFilter';
 import AddTapeModal from '../components/AddTapeModal';
 import UpdateTapeModal from '../components/UpdateTapeModal';
-import DeleteTapeModal from '../components/DeleteTapeModal';
 import g from '../global.module.css';
 import at from './AllTapes.module.css';
 
@@ -17,10 +16,6 @@ function AllTapes() {
         fetch('http://localhost:3000/tapes/')
             .then(response => response.json())
             .then(data => setTapes(data));
-    }
-
-    const handleUpdatedTapes = (tapesArray) => {
-        setTapes(tapesArray);
     }
 
     // When the component is displayed, fetch the tapes
@@ -37,7 +32,7 @@ function AllTapes() {
             <div className={g['grid-container']}>
                 <div className={g['col-3']}>
                         <h3>Filters</h3>
-                        <TapeFilters updateTapes={handleUpdatedTapes} />
+                        <TapeFilters />
                 </div>
                 <div className={g['col-9']}>
                     <div className={`${g['flex']} ${g['space-between']} ${g['items-center']}`}>
@@ -58,7 +53,6 @@ function AllTapes() {
                                             <div className={`${at['tape-actions']}`}>
                                                 <Link to={`/tapes/${tape.id}`} className={`${g['button']} ${g['small']}`}>View</Link>
                                                 <UpdateTapeModal onTapeUpdated={fetchTapes} tape={tape} />
-                                                <DeleteTapeModal onTapeDeleted={fetchTapes} id={tape.id} />
                                             </div>
                                         </div>
                                     </div>

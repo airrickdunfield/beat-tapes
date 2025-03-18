@@ -44,6 +44,10 @@ img {
     padding: 0 1rem;
 }
 
+.container.full-width {
+    max-width: 100%;
+}
+
 /* Flex */
 .flex {
     display: flex;

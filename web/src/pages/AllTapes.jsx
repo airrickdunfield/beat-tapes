@@ -12,7 +12,7 @@ function AllTapes() {
 
     const [tapes, setTapes] = useState([]);
 
-    // We have moved the fetchTapes to a funciton, because we want to call it both when the component mounts and when a new tape is added
+    // We have moved the fetchTapes to a function, because we want to call it both when the component mounts and when a new tape is added
     const fetchTapes = async () => {
         fetch('http://localhost:3000/tapes/')
             .then(response => response.json())
@@ -42,7 +42,7 @@ function AllTapes() {
                 <div className={g['col-9']}>
                     <div className={`${g['flex']} ${g['space-between']} ${g['items-center']}`}>
                         <h3>My Collection</h3>
-                        {/* Pass the funciton to the AddTapeModal component down to the child */}
+                        {/* Pass the function to the AddTapeModal component down to the child */}
                         <AddTapeModal />
                     </div>
                     <div className={g['grid-container']}>

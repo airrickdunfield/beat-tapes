@@ -37,6 +37,10 @@ img {
     display: block;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .container {
     max-width: 1200px;
     width: 100%;
@@ -131,6 +135,12 @@ img {
 .card {
     border: 1px solid #000;
     box-shadow: 3px 3px 0px 0px black;
+    background-color: white;
+    color: black;
+}
+
+.card--w-padding {
+    padding: 1.5rem;
 }
 
 .card-content {
@@ -151,6 +161,20 @@ img {
 }
 
 /* Forms */
+
+.form-group {
+    text-align: left;
+    width: 320px;
+    max-width: 100%;
+}
+
+.form--full input:not([type="submit"]), .form--full select {
+    width: 100%;
+}
+
+.form-group input[type="submit"] {
+    margin-top: 1rem;
+}
 
 .form-group label {
     display: block;
@@ -179,4 +203,36 @@ img {
 }
 .form-group input[type="submit"] {
     margin-top: 1rem;
+}
+
+/* Banner */
+.banner {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.banner__content {
+    z-index: 1;
+}
+
+.banner__buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 }

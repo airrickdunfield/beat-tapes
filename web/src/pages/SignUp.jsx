@@ -19,7 +19,7 @@ function SignUp() {
             return;
         }
 
-        fetch('https://your-api-domain.com/api/signup', {
+        fetch('http://localhost:3000/users/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

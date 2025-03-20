@@ -34,7 +34,7 @@ function Tape() {
                     <img src={`http://localhost:3000/images/${tapeData.image_name}`} alt="Placeholder" />
                 </div>
                 <div className={g['col-8']}>
-                <Link to="/" className={`${g['button']} ${g['small']}`}>&lt; Tapes</Link>
+                <Link to="/tapes" className={`${g['button']} ${g['small']}`}>&lt; Tapes</Link>
                 <h1 className={`${g["h2"]} ${g["inline-flex"]} ${g["items-center"]}`}> {tapeData.title} by {tapeData.artist}</h1>
                     <p>{parse(description ?? "")}</p>
                 </div>

@@ -42,7 +42,7 @@ function SignUp() {
                 <div className={g['col-12']}>
                     <div className={`${g['card']} ${g['card--w-padding']}`}>
                         <h1 className={g['h1']}>Register</h1>
-                        <form className={`${g['form-group']} ${g["form--full"]}`}>
+                        <form onSubmit={handleSubmit} className={`${g['form-group']} ${g["form--full"]}`}>
                             <div >
                                 <label htmlFor="email">Email</label>
                                 <input 

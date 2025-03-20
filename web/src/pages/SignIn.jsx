@@ -11,7 +11,7 @@ function SignIn() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:3000/users/sign-in', {
+        fetch('http://localhost:3000/users/sign-in/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,8 +21,10 @@ function SignIn() {
                 password: formData.password,
             }),
         })
-        .then((data) => {
-            console.log('Sign-in successful:', data);
+        .then((response) => response.json())
+        .then((response) => {
+            console.log('Sign-in successful:', response.token);
+            localStorage.setItem('token', response.token);
             // Handle successful sign-in (e.g., save token, redirect)
         });
     };

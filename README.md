@@ -168,4 +168,4 @@ beat-tapes/
 
 ### Author
 
-This project was built by **Airrick Dunfield** as part of the MDIA 4294 Web Scripting Course.
+This project was built by **Airrick Dunfield** as part of the MDIA 4294 Web Scripting 3 Course.

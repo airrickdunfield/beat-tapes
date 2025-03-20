@@ -95,25 +95,62 @@ Make sure you have the following installed on your system:
 
 ### Set Up the Database
 
-1. Create a MySQL database named `music`.
-2. Import the schema:
+1. Use the following SQL to set up the database
    ```sql
-   SOURCE path/to/schema.sql;
+        CREATE DATABASE music;
+        USE music;
+
+        -- Create the `artists` table
+        CREATE TABLE artists (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL
+        );
+
+        -- Create the `albums` table
+        CREATE TABLE albums (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            artist INT NOT NULL,
+            title VARCHAR(255) NOT NULL,
+            image_name VARCHAR(255),
+            description TEXT,
+            FOREIGN KEY (artist) REFERENCES artists(id) ON DELETE CASCADE
+        );
+
+        -- Create the `users` table
+        CREATE TABLE users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
    ```
 
 ---
 
 ### Access the Application
 
-Open your browser and navigate to: `http://localhost:3000`
+Open your browser and navigate to: `http://localhost:5173`
 
 ---
 
 ### Folder Structure
 
 ```
-/api    # Backend code
-/web    # Frontend code
+beat-tapes/
+├── api/                # Backend code
+│   ├── routers/        # Express routers for users, tapes, and artists
+│   ├── [storage.js](http://_vscodecontentref_/4)      # Multer configuration for file uploads
+│   ├── [db.js](http://_vscodecontentref_/5)           # MySQL database connection
+│   ├── [auth.jwt.js](http://_vscodecontentref_/6)     # JWT authentication middleware
+│   └── [server.js](http://_vscodecontentref_/7)       # Main Express server
+├── web/                # Frontend code
+│   ├── src/            # React source files
+│   │   ├── components/ # Reusable React components
+│   │   ├── pages/      # React pages
+│   │   ├── assets/     # Static assets (images, fonts)
+│   │   └── [global.module.css](http://_vscodecontentref_/8) # Global styles
+│   └── [vite.config.js](http://_vscodecontentref_/9)  # Vite configuration
+└── [README.md](http://_vscodecontentref_/10)           # Project documentation
 ```
 
 ---
@@ -126,10 +163,9 @@ Open your browser and navigate to: `http://localhost:3000`
 #### Frontend (in `/web`)
 - `npm run dev`: Start the frontend development server.
 - `npm run build`: Build the frontend for production.
-- `npm run preview`: Preview the production build.
 
 ---
 
 ### Author
 
-This project was built by **Airrick Dunfield** as part of the MDIA 4294 course. It demonstrates the integration of React, Express, and MySQL to create a full-stack CRUD application.
+This project was built by **Airrick Dunfield** as part of the MDIA 4294 course.

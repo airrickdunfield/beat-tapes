@@ -6,9 +6,14 @@
     padding: 1rem 0;
 }
 
+.header-tagline {
+    margin-right: 1rem;
+}
+
 .main-nav {
     display: flex;
     gap: 2rem;
     justify-content: space-between;
     align-items: center;
 }
+

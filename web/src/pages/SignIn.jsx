@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import g from '../global.module.css';
 import bannerImage from '../assets/images/home-bg.jpg';
 
-function SignIn() {
+function SignIn( {setIsAuthenticated}) {
+
+    const [loginSuccess, setLoginSuccess] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
+
+    const navigate = useNavigate(); 
+
+    useEffect(() => {
+        if (loginSuccess) { navigate('/'); }
+    }, [loginSuccess]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,9 +32,11 @@ function SignIn() {
         })
         .then((response) => response.json())
         .then((response) => {
-            console.log('Sign-in successful:', response.token);
             localStorage.setItem('token', response.token);
-            // Handle successful sign-in (e.g., save token, redirect)
+
+            setIsAuthenticated(true); // Passed down
+            setLoginSuccess(true); // Trigger navigation
+
         });
     };
 

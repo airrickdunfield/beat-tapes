@@ -29,13 +29,20 @@ function App() {
   return (
     
     <div className={a.app}>
-      <Header />
+      <Header 
+        isAuthenticated={isAuthenticated} 
+        setIsAuthenticated={setIsAuthenticated} 
+      />
 
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/tapes" /> : <Home />} />
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-in" 
+          element={<SignIn 
+            setIsAuthenticated={setIsAuthenticated} />}  
+            isAuthenticated={isAuthenticated}  
+          />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/tapes" element={isAuthenticated ? <AllTapes /> : <h1>ooops</h1>} />
+        <Route path="/tapes" element={isAuthenticated ? <AllTapes /> : <Navigate to="/" /> } />
         <Route path="/tapes/:id" element={isAuthenticated ? <Tape /> : <Navigate to="/" />} />
       </Routes>
 

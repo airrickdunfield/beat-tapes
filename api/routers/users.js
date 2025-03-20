@@ -24,9 +24,6 @@ usersRouter.post('/', [
     const email = req.body.email;
     const password = req.body.password;
 
-    // log the submission
-    console.log('email:', email, 'password:', password);
-
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 

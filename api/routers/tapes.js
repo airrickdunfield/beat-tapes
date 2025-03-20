@@ -15,9 +15,7 @@ tapesRouter.get('/', (req, res) => {
     JOIN artists ON albums.artist = artists.id`;
 
   const queryParams = [];
-
-  console.log(artists);
-
+  
   if (artists) {
     sql += ` WHERE artists.id IN (?)`;
 

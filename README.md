@@ -13,7 +13,7 @@
 
 # Beat Tapes
 
-**Beat Tapes** is a full-stack web application for managing a collection of lofi cassette tapes. Users can sign up, log in, and manage their personal tape library by adding, updating, and deleting tapes. The app also includes filtering functionality and integrates with a MySQL database for persistent storage.
+**Beat Tapes** is a full-stack web application for managing a collection of lofi cassette tapes. Users can sign up, log in, and manage their personal library by adding, updating, and deleting tapes. The app also includes filtering functionality and integrates with a MySQL database.
 
 ---
 
@@ -22,21 +22,21 @@
 - **User Authentication**: Sign up and log in with secure password hashing and JWT-based authentication.
 - **CRUD Operations**: Create, read, update, and delete tapes in your collection.
 - **Filtering**: Filter tapes by artist.
-- **File Uploads**: Upload images for tapes using `multer`.
+- **File Uploads**: Upload images using `multer`.
 
 ---
 
-## Technology Stack
+## Technology
 
 ### Frontend
 - **React**: For building the user interface.
 - **React Router**: For client-side routing.
-- **Vite**: For fast development and build tooling.
+- **Vite**: For fast development and project creation.
 - **CSS Modules**: For scoped and maintainable styles.
 
 ### Backend
-- **Express.js**: For building the RESTful API.
-- **MySQL**: For database storage.
+- **Express.js**: For the server-side framework.
+- **MySQL**: For the database.
 - **JWT**: For secure user authentication.
 - **Multer**: For handling file uploads.
 - **bcrypt**: For password hashing.
@@ -59,39 +59,6 @@ Make sure you have the following installed on your system:
    ```bash
    git clone https://github.com/your-username/beat-tapes.git
    cd beat-tapes
-
-### Set Up the Backend
-
-1. Navigate to the `api` directory:
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file by copying the example:
-   ```bash
-   cp .env.example .env
-   ```
-4. Update the `.env` file with your MySQL credentials and a secure `JWT_SECRET`.
-5. Start the backend server:
-   ```bash
-   npm run dev
-   ```
-
----
-
-### Set Up the Frontend
-
-1. Navigate to the `web` directory:
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
----
 
 ### Set Up the Database
 
@@ -127,6 +94,39 @@ Make sure you have the following installed on your system:
 
 ---
 
+### Set Up the Backend
+
+1. Navigate to the `api` folder:
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file by copying the example:
+   ```bash
+   cp .env.example .env
+   ```
+4. Update the `.env` file with your MySQL credentials and a secure `JWT_SECRET`.
+5. Start the backend server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+### Set Up the Frontend
+
+1. Navigate to the `web` directory:
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
 ### Access the Application
 
 Open your browser and navigate to: `http://localhost:5173`
@@ -139,18 +139,18 @@ Open your browser and navigate to: `http://localhost:5173`
 beat-tapes/
 ├── api/                # Backend code
 │   ├── routers/        # Express routers for users, tapes, and artists
-│   ├── [storage.js](http://_vscodecontentref_/4)      # Multer configuration for file uploads
-│   ├── [db.js](http://_vscodecontentref_/5)           # MySQL database connection
-│   ├── [auth.jwt.js](http://_vscodecontentref_/6)     # JWT authentication middleware
-│   └── [server.js](http://_vscodecontentref_/7)       # Main Express server
+│   ├── storage.js      # Multer configuration for file uploads
+│   ├── db.js           # MySQL database connection
+│   ├── auth.jwt.js     # JWT authentication middleware
+│   └── server.js       # Main Express server
 ├── web/                # Frontend code
 │   ├── src/            # React source files
 │   │   ├── components/ # Reusable React components
 │   │   ├── pages/      # React pages
 │   │   ├── assets/     # Static assets (images, fonts)
-│   │   └── [global.module.css](http://_vscodecontentref_/8) # Global styles
-│   └── [vite.config.js](http://_vscodecontentref_/9)  # Vite configuration
-└── [README.md](http://_vscodecontentref_/10)           # Project documentation
+│   │   └── global.module.css # Global styles
+│   └── vite.config.js  # Vite configuration
+└── README.md           # Project documentation
 ```
 
 ---
@@ -168,4 +168,4 @@ beat-tapes/
 
 ### Author
 
-This project was built by **Airrick Dunfield** as part of the MDIA 4294 course.
+This project was built by **Airrick Dunfield** as part of the MDIA 4294 Web Scripting Course.

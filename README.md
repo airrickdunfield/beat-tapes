@@ -1,5 +1,5 @@
 ## MDIA 4294 - Express/React - Lab App
-- Week 7: Connecting Express, React, and MySQL (MAMP)
+- Week 7: Connecting Express, React, and MySQL (MAMP) - CRUD: Simple READ
 - Week 8: CRUD - Create
 - Week 9: CRUD - Update
 - Week 10: CRUD - Filtering w/ READ & DELETE

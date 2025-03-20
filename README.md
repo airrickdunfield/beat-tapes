@@ -5,4 +5,4 @@
 - Week 10: CRUD - Filtering w/ READ & DELETE
 - Week 11: User Sign-up & JWT in Express.js
 - Week 12: Refactoring & Connecting Tapes w/ Users
-- Week 12: Deployment w/ Glitch.com
+- Week 13: Deployment w/ Glitch.com

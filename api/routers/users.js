@@ -10,42 +10,42 @@ const usersRouter = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Sign-up route
-usersRouter.post('/',[
+usersRouter.post('/', [
     body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
     body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
-    ], async (req, res) => {
-        
-        const errors = validationResult(req);
+], async (req, res) => {
 
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+    const errors = validationResult(req);
 
-        const email = req.body.email;
-        const password = req.body.password;
-
-        // log the submission
-        console.log('email:', email, 'password:', password);
-
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Insert the new user into the database
-        const [result] = await db.promise().query(
-            'INSERT INTO users (email, password) VALUES (?, ?)',
-            [email, hashedPassword]
-        );
-
-        res.status(201).json({ message: 'User registered successfully', userId: result.insertId });
-
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    // log the submission
+    console.log('email:', email, 'password:', password);
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the new user into the database
+    const [result] = await db.promise().query(
+        'INSERT INTO users (email, password) VALUES (?, ?)',
+        [email, hashedPassword]
+    );
+
+    res.status(201).json({ message: 'User registered successfully', userId: result.insertId });
+
+}
 );
 
 // Login route
 usersRouter.post('/sign-in', [
-        body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
-        body('password').notEmpty().withMessage('Password is required'),
-    ], async (req, res) => {
+    body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
+    body('password').notEmpty().withMessage('Password is required'),
+], async (req, res) => {
 
     const errors = validationResult(req);
 

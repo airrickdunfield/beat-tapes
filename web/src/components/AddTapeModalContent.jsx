@@ -18,14 +18,21 @@ function ModalContent({ onClose, onTapeAdded }) {
 
   // Load the artists from the API on intial render for the select dropdown
   useEffect(() => {
-    fetch("http://localhost:3000/artists")
+    const token = localStorage.getItem("token");
+
+    fetch("http://localhost:3000/artists", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setDbArtists(data);
         if (data.length > 0) {
           setArtist(data[0].id);
         }
-      });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   // Toggle the select and the input for artists
@@ -73,9 +80,16 @@ function ModalContent({ onClose, onTapeAdded }) {
     formData.append("image", image);
 
     // Send the POST request to the API to create new tape
-    fetch("http://localhost:3000/tapes", { method: "POST", body: formData })
+    fetch("http://localhost:3000/tapes", { 
+        method: "POST", 
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }, 
+      })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
 
     // Call the onTapeAdded function that was passed as a prop
     //    @NOTE: This is passed down from AllTapes.jsx and just calls the fetchTapes function to repopulate the tapes

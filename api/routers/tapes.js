@@ -1,26 +1,35 @@
 const express = require('express');
 const db = require('../db');
 const upload = require('../storage');
+const authenticateRequestToken = require('../auth.jwt'); // Import the authentication middleware
 
 const tapesRouter = express.Router();
+
+tapesRouter.use(authenticateRequestToken);
 
 // Get all tapes from the database
 tapesRouter.get('/', (req, res) => {
 
   const artists = req.query.artists;
 
+  const user_id = req.user.userId; 
+
   let sql = `
     SELECT albums.*, artists.name AS artist, artists.id AS artist_id
     FROM albums
-    JOIN artists ON albums.artist = artists.id`;
+    JOIN artists ON albums.artist = artists.id WHERE `;
 
   const queryParams = [];
   
   if (artists) {
-    sql += ` WHERE artists.id IN (?)`;
+    sql += `artists.id IN (?) AND `;
 
     queryParams.push(...artists);
   }
+
+  sql += `albums.user_id = ?`;
+
+  queryParams.push(user_id);
 
   db.query(sql, queryParams, (err, results) => {
     if (err) {
@@ -124,12 +133,16 @@ tapesRouter.post('/', upload.single('image'), (req, res) => {
 
   // The uploaded file's filename is stored in 'req.file.filename'
   const image = req.file.filename;
+  
+  const user_id = req.user.userId; 
+
+  console.log(req.user);
 
   // Create the SQL query to insert the new tape
-  const addAlbumSQL = `INSERT INTO albums (artist, title, image_name) VALUES (?, ?, ?)`;
+  const addAlbumSQL = `INSERT INTO albums (artist, title, image_name, user_id) VALUES (?, ?, ?, ?)`;
 
   // Run the query above, substituting the '?' with the artist ID, title and image in that order
-  db.query(addAlbumSQL, [artist_id, title, image], (err, results) => {
+  db.query(addAlbumSQL, [artist_id, title, image, user_id], (err, results) => {
 
     // If an error occurred, log it and return a 500 status code
     if (err) {

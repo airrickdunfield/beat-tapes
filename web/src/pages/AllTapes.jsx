@@ -14,9 +14,16 @@ function AllTapes() {
 
     // We have moved the fetchTapes to a function, because we want to call it both when the component mounts and when a new tape is added
     const fetchTapes = async () => {
-        fetch('http://localhost:3000/tapes/')
+        fetch('http://localhost:3000/tapes/', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+        })
             .then(response => response.json())
-            .then(data => setTapes(data));
+            .then(data => {
+                console.log(data);
+                setTapes(data ?? [])
+            });   
     }
 
     const handleUpdatedTapes = (tapesArray) => {

@@ -1,3 +1,4 @@
+require('dotenv').config(); // Load environment variables from .env
 
 const express = require('express');
 const cors = require('cors'); 
@@ -6,10 +7,12 @@ const bodyParser = require('body-parser');
 const tapesRouter = require('./routers/tapes');
 const artistsRouter = require('./routers/artists');
 const usersRouter = require('./routers/users');
-const port = 3000;
+const port = process.env.PORT || 3000;
  
 // Enable CORS
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL
+}));
 
 // Enable JSON body parsing
 app.use(bodyParser.json());

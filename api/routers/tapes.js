@@ -48,14 +48,16 @@ tapesRouter.get('/:id', (req, res) => {
   // Get the id from the URL
   const { id } = req.params;
 
+  const user_id = req.user.userId; 
+
   const sql = `
     SELECT albums.*, artists.name AS artist, artists.id AS artist_id
     FROM albums
     JOIN artists ON albums.artist = artists.id
-    WHERE albums.id = ?`;
+    WHERE albums.id = ? AND albums.user_id = ?`;
 
   // Substitute the '?' with the id from the URL to prevent SQL injection
-  db.query(sql, [id], (err, results) => {
+  db.query(sql, [id, user_id], (err, results) => {
 
     if (err) {
       console.error(err);
@@ -68,12 +70,15 @@ tapesRouter.get('/:id', (req, res) => {
 });
 
 tapesRouter.delete('/:id', (req, res) => {
+
   const { id } = req.params;
 
-  const sql = ` DELETE FROM albums WHERE id = ? LIMIT 1`;
+  const user_id = req.user.userId; 
+
+  const sql = ` DELETE FROM albums WHERE id = ? AND user_id = ? LIMIT 1`;
 
   // Like above, substitute the '?' with the id from the URL
-  db.query(sql, [id], (err, results) => {
+  db.query(sql, [id, user_id], (err, results) => {
 
     if (err) {
       console.error(err);

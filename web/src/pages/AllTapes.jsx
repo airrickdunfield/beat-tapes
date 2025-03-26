@@ -21,8 +21,7 @@ function AllTapes() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                setTapes(data ?? [])
+                setTapes(data);
             });   
     }
 
@@ -40,7 +39,11 @@ function AllTapes() {
     return (
         
         <main className={g['container']}>
-            <h2>Lofi Cassettes</h2>
+            <div className={g['grid-container']}>
+                <div className={g['col-12']}>
+                    <h2>Lofi Cassettes</h2>
+                </div>
+            </div>
             <div className={g['grid-container']}>
                 <div className={g['col-3']}>
                         <h3>Filters</h3>

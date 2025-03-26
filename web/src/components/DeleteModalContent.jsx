@@ -11,7 +11,12 @@ function DeleteModalContent({ id, onClose, onTapeDeleted }) {
       event.preventDefault();
 
       // Send the POST request to the API to create new tape
-      fetch(`http://localhost:3000/tapes/${id}`, {method: "DELETE"})
+      fetch(`http://localhost:3000/tapes/${id}`, {
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          method: "DELETE"
+        })
         .then(response => response.json())
         .then(data => console.log(data));
 

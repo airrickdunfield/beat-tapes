@@ -76,6 +76,9 @@ function UpdateModalContent({ onClose, onTapeUpdated, tape }) {
 
     // Send the POST request to the API to create new tape
     const tapeResponse = await fetch(`http://localhost:3000/tapes/${tape.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
       method: "PUT",
       body: formData
     });

@@ -31,7 +31,9 @@ function Header( { isAuthenticated, setIsAuthenticated } ) {
     return (
         <header className={h['header']}>
             <div className={ `${g['container']} ${h['main-nav']}`}> 
-                <img src={logo} width={100} alt="Lofi Tapes" />
+                <Link to="/">
+                    <img src={logo} width={100} alt="Lofi Tapes" />
+                </Link>
                 <div>
                     <span className={h["header-tagline"]}>lofi beats to code<span>/</span>design<span>/</span>study to<span>.</span></span>
                     {isAuthenticated ? <button className={`${g["button"]} ${g["danger"]}`} onClick={handleLogout}>Sign Out</button> : <Link className={`${g["button"]}`} to="/sign-in">Sign In</Link>}
